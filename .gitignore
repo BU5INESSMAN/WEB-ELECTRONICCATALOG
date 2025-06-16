@@ -4,6 +4,8 @@ node_modules/
 backend/.env
 backend/*.log
 backend/node_modules.json
+dist/
+build/
 
 # React
 client/build/
