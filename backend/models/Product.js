@@ -11,13 +11,16 @@ const Product = {
     return result.rows;
   },
   findById: async (id) => {
+    if (isNaN(parseInt(id))) {
+      throw new Error('ID must be a valid integer');
+    }
     const result = await pool.query(`
       SELECT p.*, c.name AS category_name, b.name AS brand_name
       FROM products p
       JOIN categories c ON p.category_id = c.id
       JOIN brands b ON p.brand_id = b.id
       WHERE p.id = $1
-    `, [id]);
+    `, [parseInt(id)]);
     return result.rows[0];
   },
   create: async ({ name, description, price, image_url, category_id, brand_id }) => {
