@@ -19,6 +19,7 @@ function HomePage() {
           API.get('/products/categories'),
           API.get('/products/brands'),
         ]);
+        console.log('Products response:', productsRes.data); // Для отладки
         setProducts(productsRes.data);
         setCategories(categoriesRes.data);
         setBrands(brandsRes.data);
@@ -30,13 +31,13 @@ function HomePage() {
     fetchData();
   }, []);
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = Array.isArray(products) ? products.filter((product) => {
     return (
       (!selectedCategory || product.category_id === parseInt(selectedCategory)) &&
       (!selectedBrand || product.brand_id === parseInt(selectedBrand)) &&
       (!search || product.name.toLowerCase().includes(search.toLowerCase()))
     );
-  });
+  }) : [];
 
   if (error) return <p className="text-danger">{error}</p>;
 
