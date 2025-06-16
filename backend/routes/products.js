@@ -1,17 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { getProducts, getProductById, createProduct, updateProduct, deleteProduct, getCategories, getBrands } = require('../controllers/productsController');
-const { authMiddleware, adminMiddleware } = require('../middleware/authMiddleware');
+const {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  getCategories,
+  getBrands,
+} = require('../controllers/productController');
 
-// Сначала статические маршруты
-router.get('/categories', getCategories);
-router.get('/brands', getBrands);
-
-// Затем динамические маршруты
 router.get('/', getProducts);
 router.get('/:id', getProductById);
-router.post('/', authMiddleware, adminMiddleware, createProduct);
-router.put('/:id', authMiddleware, adminMiddleware, updateProduct);
-router.delete('/:id', authMiddleware, adminMiddleware, deleteProduct);
+router.post('/', createProduct);
+router.put('/:id', updateProduct);
+router.delete('/:id', deleteProduct);
+router.get('/categories', getCategories);
+router.get('/brands', getBrands);
 
 module.exports = router;
