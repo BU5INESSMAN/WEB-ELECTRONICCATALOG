@@ -1,22 +1,17 @@
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const authRoutes = require('./routes/auth');
-const productRoutes = require('./routes/products');
-
+const path = require('path');
 const app = express();
 
-app.use(cors({
-origin: 'http://localhost:3000',
-methods: ['GET', 'POST', 'PUT', 'DELETE'],
-allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-app.use(express.json());
+// Служба статических файлов фронтенда
+app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Сервер запущен на порту ${PORT}`);
+// Обработка всех остальных маршрутов через React
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
+
+// Ваши API-роуты
+app.use('/api', require('./routes'));
+
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`));
