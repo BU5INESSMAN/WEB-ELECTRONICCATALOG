@@ -6,9 +6,6 @@ backend/*.log
 backend/node_modules.json
 
 # React
-client/build/
-client/node_modules/
-client/.env
 
 # Временные файлы
 *.log
