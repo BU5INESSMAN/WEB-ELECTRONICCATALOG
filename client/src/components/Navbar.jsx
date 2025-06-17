@@ -3,14 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const token = localStorage.getItem('token');
-  let user = {};
-  try {
-    const storedUser = localStorage.getItem('user');
-    user = storedUser ? JSON.parse(storedUser) : {};
-  } catch (e) {
-    console.error('Ошибка парсинга пользователя:', e);
-    localStorage.removeItem('user');
-  }
+  const user = JSON.parse(localStorage.getItem('user')) || {};
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -23,15 +16,7 @@ function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">Каталог электроники</Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
@@ -52,9 +37,7 @@ function Navbar() {
             )}
             {token ? (
               <li className="nav-item">
-                <button className="nav-link btn btn-link" onClick={handleLogout}>
-                  Выйти
-                </button>
+                <button className="nav-link btn" onClick={handleLogout}>Выйти</button>
               </li>
             ) : (
               <>
