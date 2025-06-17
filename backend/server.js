@@ -8,15 +8,17 @@ const app = express();
 // Middleware для парсинга JSON
 app.use(express.json());
 
-// Служба статических файлов (из папки build)
-app.use('/images', express.static(path.join(__dirname, '../build/images')));
-
-// Роуты
+// Служба API-роутов
 app.use('/api', authRoutes);
 app.use('/api', productsRoutes);
 
-// Служба клиентского build
+// Служба статических файлов из build
 app.use(express.static(path.join(__dirname, '../build')));
+
+// Fallback на index.html для клиентских маршрутов
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
