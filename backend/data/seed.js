@@ -56,7 +56,7 @@ const seedData = async () => {
       ('Микроволновка Panasonic', 'Компактная', 12990.00, 'https://example.com/panasonic-microwave.jpg', 4, 4);
     `);
 
-    const hashedPassword = await bcrypt.hash('123123', 10); // Пароль по умолчанию
+    const hashedPassword = await bcrypt.hash('123123', 10); // Убедимся, что соль 10
     await pool.query(`
       INSERT INTO users (email, password, role) VALUES ('admin@admin.ru', $1, 'admin');
     `, [hashedPassword]);

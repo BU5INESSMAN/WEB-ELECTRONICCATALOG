@@ -11,13 +11,11 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await API.post('/auth/login', { email, password });
-      localStorage.setItem('token', response.data.token);
+      const response = await API.post('/auth/login', { email, password }); // или /auth/register
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      setMessage('Вход выполнен!');
-      setTimeout(() => navigate('/'), 1000);
-    } catch (error) {
-      setMessage(error.response?.data?.message || 'Ошибка при входе');
+      window.location.href = '/'; // Перезагрузка для обновления Navbar
+    } catch (err) {
+      console.error('Ошибка:', err);
     }
   };
 
