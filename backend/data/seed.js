@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const bcrypt = require('bcryptjs');
 
 const seedData = async () => {
   try {
@@ -55,7 +56,6 @@ const seedData = async () => {
       ('Микроволновка Panasonic', 'Компактная', 12990.00, 'https://example.com/panasonic-microwave.jpg', 4, 4);
     `);
 
-    const bcrypt = require('bcrypt');
     const hashedPassword = await bcrypt.hash('123123', 10); // Пароль по умолчанию
     await pool.query(`
       INSERT INTO users (email, password, role) VALUES ('admin@admin.ru', $1, 'admin');
