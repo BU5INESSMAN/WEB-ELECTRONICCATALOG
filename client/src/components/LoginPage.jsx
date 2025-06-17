@@ -10,12 +10,21 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Login data:', { email, password }); // Отладка
     try {
-      const response = await API.post('/auth/login', { email, password }); // или /auth/register
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      window.location.href = '/'; // Перезагрузка для обновления Navbar
+      const response = await API.post('/auth/login', { email, password });
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+        }
+        navigate('/');
+      } else {
+        setMessage('Ошибка: данные пользователя отсутствуют');
+      }
     } catch (err) {
       console.error('Ошибка:', err);
+      setMessage(err.response?.data?.message || 'Ошибка при входе');
     }
   };
 

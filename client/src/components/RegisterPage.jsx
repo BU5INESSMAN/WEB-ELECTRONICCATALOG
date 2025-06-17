@@ -11,10 +11,14 @@ function RegisterPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('Register data:', { email, password, role }); // Отладка
     try {
       const response = await API.post('/auth/register', { email, password, role });
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+        }
         setMessage('Регистрация успешно завершена');
         setTimeout(() => navigate('/'), 1000);
       } else {
