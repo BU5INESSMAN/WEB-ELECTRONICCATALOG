@@ -1,37 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
-  const [user, setUser] = useState({});
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  let user = {};
+  try {
     const storedUser = localStorage.getItem('user');
-    console.log('Navbar init - Token:', storedToken, 'User:', storedUser); // Отладка
-    setToken(storedToken);
-
-    try {
-      const parsedUser = storedUser ? JSON.parse(storedUser) : {};
-      if (parsedUser && typeof parsedUser === 'object' && parsedUser.role) {
-        setUser(parsedUser);
-      } else {
-        setUser({});
-        localStorage.removeItem('user');
-      }
-    } catch (e) {
-      console.error('Ошибка парсинга пользователя:', e);
-      setUser({});
-      localStorage.removeItem('user');
-    }
-  }, []);
+    user = storedUser ? JSON.parse(storedUser) : {};
+  } catch (e) {
+    console.error('Ошибка парсинга пользователя:', e);
+    localStorage.removeItem('user');
+  }
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    setToken(null);
-    setUser({});
     navigate('/login');
   };
 
