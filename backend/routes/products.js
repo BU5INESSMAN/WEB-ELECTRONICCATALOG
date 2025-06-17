@@ -8,7 +8,7 @@ const {
   deleteProduct,
   getCategories,
   getBrands,
-} = require('../productsController');
+} = require('../controllers/productsController');
 
 // Основной список товаров
 router.get('/', getProducts);
