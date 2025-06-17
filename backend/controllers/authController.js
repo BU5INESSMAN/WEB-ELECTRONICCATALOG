@@ -6,8 +6,8 @@ const register = async (req, res) => {
   try {
     const existingUser = await User.findByEmail(email);
     if (existingUser) return res.status(400).json({ message: 'Пользователь уже существует' });
-    const password_hash = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password_hash, role });
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await User.create({ email, password: passwordHash, role });
     res.status(201).json(user);
   } catch (error) {
     console.error('Ошибка регистрации:', error);
@@ -20,7 +20,7 @@ const login = async (req, res) => {
   try {
     const user = await User.findByEmail(email);
     if (!user) return res.status(400).json({ message: 'Пользователь не найден' });
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const isMatch = await bcrypt.compare(password, user.password); // Используем user.password
     if (!isMatch) return res.status(400).json({ message: 'Неверный пароль' });
     res.json({ message: 'Успешный вход', user });
   } catch (error) {
