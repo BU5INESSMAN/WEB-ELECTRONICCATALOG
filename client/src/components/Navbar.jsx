@@ -6,15 +6,20 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Предположим, что данные пользователя хранятся в localStorage
+    // Получаем данные пользователя из localStorage
     const storedUser = localStorage.getItem('user');
     try {
       const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-      setUser(parsedUser);
+      if (parsedUser && typeof parsedUser === 'object' && parsedUser.email) {
+        setUser(parsedUser);
+      } else {
+        setUser(null);
+        localStorage.removeItem('user'); // Очищаем при некорректных данных
+      }
     } catch (e) {
       console.error('Ошибка парсинга пользователя:', e);
-      setUser(null); // Устанавливаем null при ошибке
-      localStorage.removeItem('user'); // Очищаем повреждённые данные
+      setUser(null);
+      localStorage.removeItem('user'); // Очищаем при ошибке
     }
   }, []);
 

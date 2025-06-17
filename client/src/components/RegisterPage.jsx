@@ -13,10 +13,13 @@ function RegisterPage() {
     event.preventDefault();
     try {
       const response = await API.post('/auth/register', { email, password, role });
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      setMessage('Регистрация успешно завершена');
-      setTimeout(() => navigate('/'), 1000);
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        setMessage('Регистрация успешно завершена');
+        setTimeout(() => navigate('/'), 1000);
+      } else {
+        setMessage('Ошибка: данные пользователя отсутствуют');
+      }
     } catch (error) {
       console.error('Ошибка регистрации на фронтенде:', error);
       setMessage(error.response?.data?.message || 'Ошибка при регистрации');
