@@ -9,8 +9,14 @@ function ProductPage() {
 
   useEffect(() => {
     API.get(`/products/${id}`)
-      .then((res) => setProduct(res.data))
-      .catch(() => setError('Товар не найден'));
+      .then((res) => {
+        setProduct(res.data);
+        console.log('Product data:', res.data); // Отладка
+      })
+      .catch((err) => {
+        console.error('Error fetching product:', err);
+        setError('Товар не найден');
+      });
   }, [id]);
 
   if (error) return <p className="text-danger">{error}</p>;
@@ -28,11 +34,19 @@ function ProductPage() {
     alert('Товар добавлен в корзину!');
   };
 
+  // Используем image_url как есть, так как это внешняя ссылка
+  const imageUrl = product.image_url || 'https://via.placeholder.com/300'; // Резервное изображение
+
   return (
     <div className="card">
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={product.image_url} className="img-fluid" alt={product.name} />
+          <img
+            src={imageUrl}
+            className="img-fluid"
+            alt={product.name}
+            onError={(e) => { e.target.src = 'https://via.placeholder.com/300'; }} // Резервное изображение
+          />
         </div>
         <div className="col-md-8">
           <div className="card-body">

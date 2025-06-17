@@ -12,7 +12,7 @@ const getProducts = async (req, res) => {
 
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.id); // Используем req.id из middleware
+    const product = await Product.findById(req.params.id); // Используем req.params.id
     if (!product) {
       return res.status(404).json({ message: 'Товар не найден' });
     }
@@ -37,7 +37,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { name, description, price, image_url, category_id, brand_id } = req.body;
   try {
-    const product = await Product.update(req.id, { name, description, price, image_url, category_id, brand_id });
+    const product = await Product.update(req.params.id, { name, description, price, image_url, category_id, brand_id });
     if (!product) {
       return res.status(404).json({ message: 'Товар не найден' });
     }
@@ -50,7 +50,7 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const success = await Product.delete(req.id);
+    const success = await Product.delete(req.params.id);
     if (!success) {
       return res.status(404).json({ message: 'Товар не найден' });
     }
@@ -63,7 +63,7 @@ const deleteProduct = async (req, res) => {
 
 const getCategories = async (req, res) => {
   try {
-    const categories = await Product.getCategories(); // Предполагаем, что метод есть
+    const categories = await Product.getCategories();
     res.json(categories);
   } catch (error) {
     console.error('Ошибка получения категорий:', error);
@@ -73,7 +73,7 @@ const getCategories = async (req, res) => {
 
 const getBrands = async (req, res) => {
   try {
-    const brands = await Product.getBrands(); // Предполагаем, что метод есть
+    const brands = await Product.getBrands();
     res.json(brands);
   } catch (error) {
     console.error('Ошибка получения брендов:', error);
