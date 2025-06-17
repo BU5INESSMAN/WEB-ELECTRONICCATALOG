@@ -7,14 +7,18 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
+    console.log('Navbar init - Token:', storedToken, 'User:', storedUser); // Отладка
+    setToken(storedToken);
+
     try {
       const parsedUser = storedUser ? JSON.parse(storedUser) : {};
       if (parsedUser && typeof parsedUser === 'object' && parsedUser.role) {
         setUser(parsedUser);
       } else {
         setUser({});
-        localStorage.removeItem('user'); // Очищаем при некорректных данных
+        localStorage.removeItem('user');
       }
     } catch (e) {
       console.error('Ошибка парсинга пользователя:', e);
@@ -40,6 +44,9 @@ function Navbar() {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -61,7 +68,7 @@ function Navbar() {
             )}
             {token ? (
               <li className="nav-item">
-                <button className="nav-link btn" onClick={handleLogout}>
+                <button className="nav-link btn btn-link" onClick={handleLogout}>
                   Выйти
                 </button>
               </li>
