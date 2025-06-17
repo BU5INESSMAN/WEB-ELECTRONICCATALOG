@@ -41,6 +41,14 @@ const Product = {
     const result = await pool.query('DELETE FROM products WHERE id = $1 RETURNING *', [id]);
     return result.rowCount > 0;
   },
+  getCategories: async () => {
+    const result = await pool.query('SELECT * FROM categories');
+    return result.rows;
+  },
+  getBrands: async () => {
+    const result = await pool.query('SELECT * FROM brands');
+    return result.rows;
+  },
 };
 
 module.exports = Product;

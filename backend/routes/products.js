@@ -10,6 +10,15 @@ const {
   getBrands,
 } = require('../controllers/productsController');
 
+// Middleware для проверки ID
+router.param('id', (req, res, next, id) => {
+  if (isNaN(parseInt(id))) {
+    return res.status(400).json({ message: 'ID must be a valid integer' });
+  }
+  req.id = parseInt(id);
+  next();
+});
+
 // Основной список товаров
 router.get('/', getProducts);
 // Получение товара по ID
