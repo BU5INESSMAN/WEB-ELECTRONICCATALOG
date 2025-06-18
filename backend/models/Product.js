@@ -21,6 +21,9 @@ const Product = {
       JOIN brands b ON p.brand_id = b.id
       WHERE p.id = $1
     `, [parseInt(id)]);
+    if (result.rows.length === 0) {
+      throw new Error('Product not found');
+    }
     return result.rows[0];
   },
   create: async ({ name, description, price, image_url, category_id, brand_id }) => {

@@ -10,17 +10,12 @@ const {
   getBrands,
 } = require('../controllers/productsController');
 
-// Отдельные эндпоинты для категорий и брендов (перед :id)
+router.get('/products', getProducts);
+router.get('/products/:id', getProductById);
+router.post('/products', createProduct);
+router.put('/products/:id', updateProduct);
+router.delete('/products/:id', deleteProduct);
 router.get('/categories', getCategories);
 router.get('/brands', getBrands);
-
-// Основной список товаров
-router.get('/', getProducts);
-// Получение товара по ID
-router.get('/:id', getProductById);
-// Создание, обновление и удаление товаров
-router.post('/', createProduct);
-router.put('/:id', updateProduct);
-router.delete('/:id', deleteProduct);
 
 module.exports = router;
