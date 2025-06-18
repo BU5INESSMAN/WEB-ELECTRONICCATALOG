@@ -15,9 +15,9 @@ function HomePage() {
     const fetchData = async () => {
       try {
         const [productsRes, categoriesRes, brandsRes] = await Promise.all([
-          API.get('/products'),
-          API.get('/products/categories'),
-          API.get('/products/brands'),
+          API.get('/api/products'),
+          API.get('/api/products/categories'),
+          API.get('/api/products/brands'),
         ]);
         console.log('Products response:', productsRes.data); // Для отладки
         setProducts(productsRes.data);
